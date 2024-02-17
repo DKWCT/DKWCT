@@ -25,7 +25,7 @@ jobs:
     - uses: actions/cache@v3
       name: Cache stack root
       with:
-        path: ${{ steps.hs.output.stack-root }}
+        path: ${{ steps.hs.outputs.stack-root }}
         key: ${{ runner.os }}-stack-global-${{ hashFiles('stack.yaml') }}-${{ hashFiles('package.yaml') }}
         restore-keys: |
           ${{ runner.os }}-stack-global-
