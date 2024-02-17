@@ -16,15 +16,16 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - uses: haskell-actions/setup@v2
+      id: hs
       with:
-        ghc-version: '9.6.3'
         enable-stack: true
+        stack-no-global: true
         stack-version: 'latest'
 
     - uses: actions/cache@v3
-      name: Cache ~/.stack
+      name: Cache stack root
       with:
-        path: ~/.stack
+        path: ${{ steps.hs.output.stack-root }}
         key: ${{ runner.os }}-stack-global-${{ hashFiles('stack.yaml') }}-${{ hashFiles('package.yaml') }}
         restore-keys: |
           ${{ runner.os }}-stack-global-
