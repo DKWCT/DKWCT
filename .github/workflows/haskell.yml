@@ -1,0 +1,43 @@
+name: Haskell CI
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+    - uses: haskell-actions/setup@v2
+      id: hs
+      with:
+        enable-stack: true
+        stack-no-global: true
+        stack-version: 'latest'
+
+    - uses: actions/cache@v3
+      name: Cache stack root
+      with:
+        path: ${{ steps.hs.outputs.stack-root }}
+        key: ${{ runner.os }}-stack-global-${{ hashFiles('stack.yaml') }}-${{ hashFiles('package.yaml') }}
+        restore-keys: |
+          ${{ runner.os }}-stack-global-
+    - uses: actions/cache@v3
+      name: Cache .stack-work
+      with:
+        path: .stack-work
+        key: ${{ runner.os }}-stack-work-${{ hashFiles('stack.yaml') }}-${{ hashFiles('package.yaml') }}-${{ hashFiles('**/*.hs') }}
+        restore-keys: |
+          ${{ runner.os }}-stack-work-
+
+    - name: Build
+      run: stack build
+    - name: Run tests
+      run: stack test
