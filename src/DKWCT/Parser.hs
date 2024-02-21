@@ -70,7 +70,7 @@ typeExpressionElement :: Parser TypeExpressionElement
 typeExpressionElement = typeTuple <|> dType
 
 typeExpression :: Parser TypeExpression
-typeExpression = TypeExpression <$> some typeExpressionElement
+typeExpression = TypeExpression . reverse <$> some typeExpressionElement
 
 valueDeclaration :: Parser Declaration
 valueDeclaration = do
