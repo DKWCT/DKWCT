@@ -1,5 +1,5 @@
 {-# LANGUAGE OverloadedStrings #-}
-module Lexer (int, number, str, character, boolean, parens, brackets, braces, colon, semicolon, comma, equals, constant, typeOf, identifier, start) where
+module DKWCT.Lexer (number, str, character, boolean, parens, brackets, braces, semicolon, comma, equals, constant, typeOf, identifier, intcol, start) where
 
 import Data.Scientific ( Scientific )
 import Data.Text (Text, cons)
@@ -64,5 +64,7 @@ identifier :: Parser Text
 identifier = lexeme identifier'
     where
         identifier' = cons <$> satisfy (testAll [isPrint, not . isSpace, not . isDigit]) <*> takeWhile1P Nothing (testAll [isPrint, not . isSpace]) <?> "identifier"
+intcol :: Parser a -> Parser (Maybe Integer, a)
+intcol p = pure (,) <*> optional (int <* colon) <*> p
 start :: Parser ()
 start = lexeme $ pure ()
