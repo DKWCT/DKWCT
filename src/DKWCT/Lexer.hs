@@ -1,12 +1,12 @@
 {-# LANGUAGE OverloadedStrings #-}
-module DKWCT.Lexer (number, str, character, boolean, parens, brackets, braces, semicolon, comma, equals, constant, typeOf, identifier, intcol, start) where
+module DKWCT.Lexer (Parser, int, number, str, character, boolean, parens, brackets, braces, semicolon, colon, equals, constant, typeOf, identifier, start) where
 
 import Data.Scientific ( Scientific )
 import Data.Text (Text, cons)
-import Data.Char
+import Data.Char ( isDigit, isPrint, isSpace )
 import Data.Functor ( ($>) )
 import Text.Megaparsec
-import Text.Megaparsec.Char hiding (space)
+import Text.Megaparsec.Char ( char )
 import qualified Text.Megaparsec.Char.Lexer as L
 import Data.Void ( Void )
 
@@ -49,22 +49,19 @@ colon :: Parser ()
 colon = symbol ":" $> ()
 semicolon :: Parser ()
 semicolon = symbol ";" $> ()
-comma :: Parser ()
-comma = symbol "," $> ()
 equals :: Parser ()
 equals = symbol "=" $> ()
 constant :: Parser ()
-constant = spaceChar *> symbol "const " $> ()
+constant = symbol "const " $> ()
 typeOf :: Parser ()
-typeOf = spaceChar *> symbol "typeOf " $> ()
+typeOf = symbol "typeOf " $> ()
 
-testAll :: [a -> Bool] -> a -> Bool
-testAll = (and .) . sequence
 identifier :: Parser Text
 identifier = lexeme identifier'
     where
         identifier' = cons <$> satisfy (testAll [isPrint, not . isSpace, not . isDigit]) <*> takeWhile1P Nothing (testAll [isPrint, not . isSpace]) <?> "identifier"
-intcol :: Parser a -> Parser (Maybe Integer, a)
-intcol p = pure (,) <*> optional (int <* colon) <*> p
+        testAll :: [a -> Bool] -> a -> Bool
+        testAll = (and .) . sequence
+
 start :: Parser ()
 start = lexeme $ pure ()
