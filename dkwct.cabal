@@ -13,7 +13,6 @@ author:         Author name here
 maintainer:     example@example.com
 copyright:      2024 Author name here
 license:        BSD-3-Clause
-license-file:   LICENSE
 build-type:     Simple
 extra-source-files:
     README.md
@@ -25,6 +24,7 @@ source-repository head
 
 library
   exposed-modules:
+      DKWCT.Lexer
       Lib
   other-modules:
       Paths_dkwct
@@ -35,6 +35,10 @@ library
   ghc-options: -Wall -Wcompat -Widentities -Wincomplete-record-updates -Wincomplete-uni-patterns -Wmissing-export-lists -Wmissing-home-modules -Wpartial-fields -Wredundant-constraints
   build-depends:
       base >=4.7 && <5
+    , containers
+    , megaparsec
+    , scientific
+    , text
   default-language: Haskell2010
 
 executable dkwct-exe
@@ -49,6 +53,7 @@ executable dkwct-exe
   build-depends:
       base >=4.7 && <5
     , dkwct
+    , text
   default-language: Haskell2010
 
 test-suite dkwct-test
@@ -64,4 +69,5 @@ test-suite dkwct-test
   build-depends:
       base >=4.7 && <5
     , dkwct
+    , text
   default-language: Haskell2010
