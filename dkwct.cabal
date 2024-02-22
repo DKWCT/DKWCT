@@ -25,6 +25,7 @@ source-repository head
 library
   exposed-modules:
       DKWCT.Lexer
+      DKWCT.Parser
       Lib
   other-modules:
       Paths_dkwct

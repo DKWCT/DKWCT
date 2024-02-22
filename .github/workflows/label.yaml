@@ -1,6 +1,9 @@
 name: Check do not merge
 
 on:
+  push:
+    branches-ignore:
+      - main
   # Check label during the lifetime of a pull request
   pull_request:
     types:
