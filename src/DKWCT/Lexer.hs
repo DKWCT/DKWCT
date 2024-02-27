@@ -43,7 +43,7 @@ boolean = symbol "true" $> True <|> symbol "false" $> False
 parens :: Parser a -> Parser a
 parens = between (symbol "(") (symbol ")")
 brackets :: Parser a -> Parser a
-brackets = between (symbol "(") (symbol ")")
+brackets = between (symbol "[") (symbol "]")
 braces :: Parser a -> Parser a
 braces = between (symbol "{") (symbol "}")
 
