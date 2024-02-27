@@ -9,6 +9,8 @@ import Text.Megaparsec
 import Text.Megaparsec.Char ( char )
 import qualified Text.Megaparsec.Char.Lexer as L
 import Data.Void ( Void )
+import Data.Set (Set)
+import qualified Data.Set as S
 
 type Parser = Parsec Void Text
 
@@ -59,7 +61,9 @@ typeOf = symbol "typeOf " $> ()
 identifier :: Parser Text
 identifier = lexeme identifier'
     where
-        identifier' = cons <$> satisfy (testAll [isPrint, not . isSpace, not . isDigit]) <*> takeWhile1P Nothing (testAll [isPrint, not . isSpace]) <?> "identifier"
+        identifier' = cons <$> satisfy (testAll [isPrint, not . isSpace, not . isDigit, not . flip S.member reserved]) <*> takeWhileP Nothing (testAll [isPrint, not . isSpace, not . flip S.member reserved]) <?> "identifier"
+        reserved :: Set Char
+        reserved = S.fromList ['(', ')', '[', ']', '{', '}']
         testAll :: [a -> Bool] -> a -> Bool
         testAll = (and .) . sequence
 
