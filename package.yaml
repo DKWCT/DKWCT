@@ -62,3 +62,8 @@ tests:
     - -with-rtsopts=-N
     dependencies:
     - dkwct
+    - hspec
+    - megaparsec
+    - hspec-megaparsec
+    - hspec-discover
+    - scientific

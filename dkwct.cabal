@@ -61,6 +61,7 @@ test-suite dkwct-test
   type: exitcode-stdio-1.0
   main-is: Spec.hs
   other-modules:
+      DKWCT.LexerSpec
       Paths_dkwct
   autogen-modules:
       Paths_dkwct
@@ -70,5 +71,10 @@ test-suite dkwct-test
   build-depends:
       base >=4.7 && <5
     , dkwct
+    , hspec
+    , hspec-discover
+    , hspec-megaparsec
+    , megaparsec
+    , scientific
     , text
   default-language: Haskell2010

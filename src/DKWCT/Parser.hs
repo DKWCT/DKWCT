@@ -93,4 +93,5 @@ dModule :: Parser Module
 dModule = do
     L.start
     declarations <- endBy declaration L.semicolon
-    Module declarations <$> expression
+    expr <- expression
+    Module declarations expr <$ eof
