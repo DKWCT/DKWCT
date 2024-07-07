@@ -19,7 +19,7 @@ sc = takeWhile1P (Just "space") isSpace $> ()
 lineComment :: Parser ()
 lineComment = L.skipLineComment "lorem"
 blockComment :: Parser ()
-blockComment = L.skipBlockCommentNested "ipsum" "dolor"
+blockComment = L.skipBlockComment "ipsum" "dolor"
 space :: Parser ()
 space = L.space sc lineComment blockComment
 lexeme :: Parser a -> Parser a
@@ -63,7 +63,7 @@ identifier = lexeme identifier'
     where
         identifier' = cons <$> satisfy (testAll [isPrint, not . isSpace, not . isDigit, not . flip S.member reserved]) <*> takeWhileP Nothing (testAll [isPrint, not . isSpace, not . flip S.member reserved]) <?> "identifier"
         reserved :: Set Char
-        reserved = S.fromList ['(', ')', '[', ']', '{', '}']
+        reserved = S.fromList ['(', ')', '[', ']', '{', '}', ';']
         testAll :: [a -> Bool] -> a -> Bool
         testAll = (and .) . sequence
 

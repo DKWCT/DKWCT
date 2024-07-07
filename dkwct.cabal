@@ -62,6 +62,7 @@ test-suite dkwct-test
   main-is: Spec.hs
   other-modules:
       DKWCT.LexerSpec
+      DKWCT.ParserSpec
       Paths_dkwct
   autogen-modules:
       Paths_dkwct
